@@ -1,4 +1,4 @@
-namespace Loupedeck.LogiHapticsUnityPlugin
+namespace Loupedeck.HapticBridgeForUnityPlugin
 {
     using System;
 

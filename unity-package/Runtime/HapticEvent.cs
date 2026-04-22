@@ -1,4 +1,4 @@
-namespace LogiHaptics
+namespace HapticBridge
 {
     public enum HapticEvent
     {

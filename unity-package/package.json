@@ -1,15 +1,16 @@
 {
-  "name": "com.logihapticsunity",
+  "name": "com.edinylcnn.hapticbridge",
   "version": "0.1.1",
-  "displayName": "LogiHaptics for Unity",
-  "description": "One-line MX Master 4 haptic feedback for Unity games via a Logi Options+ plugin.",
+  "displayName": "HapticBridge for Unity",
+  "description": "One-line MX Master 4 haptic feedback for Unity games. Unofficial community package — works with a companion Logi Options+ plugin.",
   "unity": "2021.3",
   "keywords": [
     "haptics",
-    "logitech",
+    "haptic-feedback",
     "mx-master",
     "input",
-    "feedback"
+    "feedback",
+    "mouse"
   ],
   "author": {
     "name": "Edin Yalçın",

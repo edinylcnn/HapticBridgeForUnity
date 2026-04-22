@@ -1,6 +1,6 @@
 using System;
 
-namespace LogiHaptics
+namespace HapticBridge
 {
     public interface IHapticService : IDisposable
     {

@@ -1,4 +1,4 @@
-namespace Loupedeck.LogiHapticsUnityPlugin
+namespace Loupedeck.HapticBridgeForUnityPlugin
 {
     using System;
     using System.IO;
@@ -10,7 +10,7 @@ namespace Loupedeck.LogiHapticsUnityPlugin
 
     public sealed class PipeServer : IDisposable
     {
-        public const string PipeName = "LogiHapticsUnity";
+        public const string PipeName = "HapticBridgeForUnity";
 
         readonly Action<string> _onEvent;
         readonly CancellationTokenSource _cts = new CancellationTokenSource();

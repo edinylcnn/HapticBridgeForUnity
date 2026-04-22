@@ -1,8 +1,8 @@
 using System;
 
-namespace LogiHaptics
+namespace HapticBridge
 {
-    public static class LogiHapticsUnity
+    public static class HapticsBridge
     {
         static IHapticService _service;
         static readonly object _lock = new object();
@@ -14,7 +14,7 @@ namespace LogiHaptics
                 if (_service != null) return _service;
                 lock (_lock)
                 {
-                    if (_service == null) _service = new LogiHapticsService();
+                    if (_service == null) _service = new HapticBridgeService();
                 }
                 return _service;
             }

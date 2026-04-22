@@ -5,11 +5,11 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace LogiHaptics
+namespace HapticBridge
 {
-    public sealed class LogiHapticsService : IHapticService
+    public sealed class HapticBridgeService : IHapticService
     {
-        public const string PipeName = "LogiHapticsUnity";
+        public const string PipeName = "HapticBridgeForUnity";
         const int ConnectTimeoutMs = 200;
 
         readonly object _lock = new object();

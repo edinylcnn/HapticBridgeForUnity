@@ -39,7 +39,7 @@ jobs:
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
-          name: Unity Package ${{ github.ref_name }}
+          name: HapticBridge for Unity — Package ${{ github.ref_name }}
           generate_release_notes: true
           body: |
             Unity Package Manager → `+` → Add package from git URL:
@@ -48,11 +48,11 @@ jobs:
             https://github.com/edinylcnn/LogiHapticsForUnity.git?path=/unity-package#${{ github.ref_name }}
             ```
 
-            Kullanım:
+            Usage:
 
             ```csharp
-            using LogiHaptics;
-            LogiHapticsUnity.Trigger(HapticEvent.Click);
+            using HapticBridge;
+            HapticsBridge.Trigger(HapticEvent.Click);
             ```
 
-            Plugin (`.lplug4`) kurulumu için `plugin-v*` release'ine bak.
+            For the companion Logi Options+ plugin (`.lplug4`), see the `plugin-v*` release.

@@ -1,8 +1,8 @@
 {
-    "name": "LogiHaptics.Editor",
-    "rootNamespace": "LogiHaptics.Editor",
+    "name": "HapticBridge.Editor",
+    "rootNamespace": "HapticBridge.Editor",
     "references": [
-        "LogiHaptics.Runtime"
+        "HapticBridge.Runtime"
     ],
     "includePlatforms": [
         "Editor"

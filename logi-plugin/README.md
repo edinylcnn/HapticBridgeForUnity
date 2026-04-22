@@ -2,11 +2,13 @@
 
 [English](README.md) · [Türkçe](README.tr.md)
 
-Logi Options+ plugin — opens a pipe server, forwards events to Logi Actions SDK haptic waveforms on the MX Master 4.
+Companion plugin for Logi Options+ — opens a pipe server, forwards events to the host SDK's haptic waveforms on the MX Master 4.
+
+> Unofficial community plugin. Not affiliated with Logitech.
 
 ## Requirements
 
-1. **Logi Options+** installed (provides the Logi Plugin Service + `PluginApi.dll`)
+1. **Logi Options+** installed (provides the plugin service + `PluginApi.dll`)
    - Windows: `C:\Program Files\Logi\LogiPluginService\PluginApi.dll`
    - macOS: `/Applications/Utilities/LogiPluginService.app/Contents/MonoBundle/PluginApi.dll`
 2. **.NET 8 SDK**
@@ -21,21 +23,21 @@ Logi Options+ plugin — opens a pipe server, forwards events to Logi Actions SD
 ```
 logi-plugin/
 ├── src/
-│   ├── Plugin.cs                         ← Loupedeck.Plugin entry
-│   ├── Application.cs                    ← ClientApplication companion
-│   ├── PipeServer.cs                     ← Named Pipe / Unix socket server
-│   ├── HapticMapper.cs                   ← event → waveform mapping
-│   ├── PluginLog.cs                      ← SDK log wrapper
-│   ├── LogiHapticsUnity.Plugin.csproj
+│   ├── Plugin.cs                               ← Loupedeck.Plugin entry
+│   ├── Application.cs                          ← ClientApplication companion
+│   ├── PipeServer.cs                           ← Named Pipe / Unix socket server
+│   ├── HapticMapper.cs                         ← event → waveform mapping
+│   ├── PluginLog.cs                            ← SDK log wrapper
+│   ├── HapticBridgeForUnity.Plugin.csproj
 │   └── package/
 │       ├── metadata/
-│       │   ├── LoupedeckPackage.yaml     ← manifest (plugin4, HasHapticsMapping)
-│       │   └── Icon256x256.png           ← placeholder
+│       │   ├── LoupedeckPackage.yaml           ← manifest (plugin4, HasHapticsMapping)
+│       │   └── Icon256x256.png
 │       └── events/
-│           ├── DefaultEventSource.yaml   ← 15 waveform events
+│           ├── DefaultEventSource.yaml         ← 15 waveform events
 │           └── extra/
-│               └── eventMapping.yaml     ← haptic UI registration (haptics block)
-└── build/                                ← .lplug4 output
+│               └── eventMapping.yaml           ← haptic UI registration (haptics block)
+└── build/                                      ← .lplug4 output
 ```
 
 ## Development
@@ -45,31 +47,31 @@ cd logi-plugin/src
 dotnet build -c Release
 ```
 
-The csproj automatically writes a `.link` file into the Logi Plugin Service's `Plugins/` directory and triggers `loupedeck:plugin/LogiHapticsUnity/reload`, so Logi Options+ hot-reloads the plugin.
+The csproj automatically writes a `.link` file into the plugin service's `Plugins/` directory and triggers a reload, so the host hot-reloads the plugin.
 
 ## Packaging (.lplug4)
 
 ```bash
 cd logi-plugin/src
 dotnet build -c Release
-logiplugintool pack ../bin/Release ../build/LogiHapticsUnity_0.0.1.lplug4
+logiplugintool pack ../bin/Release ../build/HapticBridgeForUnity_0.1.1.lplug4
 ```
 
-Output: `logi-plugin/build/LogiHapticsUnity_<version>.lplug4` — double-clickable installer.
+Output: `logi-plugin/build/HapticBridgeForUnity_<version>.lplug4` — double-clickable installer.
 
 ## Releasing
 
 `PluginApi.dll` ships with Logi Options+, so it cannot be fetched in CI. Releases are cut locally from the repo root:
 
 ```bash
-./scripts/release-plugin.sh 0.1.0
+./scripts/release-plugin.sh 0.2.0
 ```
 
 The script:
 1. Syncs the manifest version and pushes the commit
 2. Runs `dotnet build -c Release`
 3. Packs the `.lplug4`
-4. Creates and pushes `plugin-v<version>` tag
+4. Creates and pushes the `plugin-v<version>` tag
 5. Creates a GitHub Release with the `.lplug4` attached as an asset
 
 Requirements: `dotnet`, `logiplugintool`, `gh` (GitHub CLI), a clean working tree.

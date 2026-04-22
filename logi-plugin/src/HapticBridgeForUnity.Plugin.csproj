@@ -4,8 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <RootNamespace>Loupedeck.LogiHapticsUnityPlugin</RootNamespace>
-    <AssemblyName>LogiHapticsUnityPlugin</AssemblyName>
+    <RootNamespace>Loupedeck.HapticBridgeForUnityPlugin</RootNamespace>
+    <AssemblyName>HapticBridgeForUnityPlugin</AssemblyName>
 
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -21,7 +21,7 @@
     <BaseOutputPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\bin\'))</BaseOutputPath>
     <OutputPath>$(BaseOutputPath)$(Configuration)\bin\</OutputPath>
 
-    <PluginShortName>LogiHapticsUnity</PluginShortName>
+    <PluginShortName>HapticBridgeForUnity</PluginShortName>
   </PropertyGroup>
 
   <ItemGroup>

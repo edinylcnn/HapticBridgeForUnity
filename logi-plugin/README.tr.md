@@ -2,11 +2,13 @@
 
 [English](README.md) · [Türkçe](README.tr.md)
 
-Logi Options+ plugin'i — bir pipe server açar, gelen event'leri Logi Actions SDK haptic waveform'larına çevirip MX Master 4'e gönderir.
+Logi Options+ için companion plugin — bir pipe server açar, gelen event'leri host SDK haptic waveform'larına çevirip MX Master 4'e gönderir.
+
+> Resmi olmayan, topluluk plugin'i. Logitech ile bağlantılı değildir.
 
 ## Gereksinimler
 
-1. **Logi Options+** kurulu olmalı (Logi Plugin Service + `PluginApi.dll` sağlar)
+1. **Logi Options+** kurulu olmalı (plugin service + `PluginApi.dll` sağlar)
    - Windows: `C:\Program Files\Logi\LogiPluginService\PluginApi.dll`
    - macOS: `/Applications/Utilities/LogiPluginService.app/Contents/MonoBundle/PluginApi.dll`
 2. **.NET 8 SDK**
@@ -21,21 +23,21 @@ Logi Options+ plugin'i — bir pipe server açar, gelen event'leri Logi Actions 
 ```
 logi-plugin/
 ├── src/
-│   ├── Plugin.cs                         ← Loupedeck.Plugin entry
-│   ├── Application.cs                    ← ClientApplication companion
-│   ├── PipeServer.cs                     ← Named Pipe / Unix socket sunucusu
-│   ├── HapticMapper.cs                   ← event → waveform eşleme
-│   ├── PluginLog.cs                      ← SDK log wrapper
-│   ├── LogiHapticsUnity.Plugin.csproj
+│   ├── Plugin.cs                               ← Loupedeck.Plugin entry
+│   ├── Application.cs                          ← ClientApplication companion
+│   ├── PipeServer.cs                           ← Named Pipe / Unix socket sunucusu
+│   ├── HapticMapper.cs                         ← event → waveform eşleme
+│   ├── PluginLog.cs                            ← SDK log wrapper
+│   ├── HapticBridgeForUnity.Plugin.csproj
 │   └── package/
 │       ├── metadata/
-│       │   ├── LoupedeckPackage.yaml     ← manifest (plugin4, HasHapticsMapping)
-│       │   └── Icon256x256.png           ← placeholder
+│       │   ├── LoupedeckPackage.yaml           ← manifest (plugin4, HasHapticsMapping)
+│       │   └── Icon256x256.png
 │       └── events/
-│           ├── DefaultEventSource.yaml   ← 15 waveform event'i
+│           ├── DefaultEventSource.yaml         ← 15 waveform event'i
 │           └── extra/
-│               └── eventMapping.yaml     ← haptic UI kaydı (haptics block)
-└── build/                                ← .lplug4 çıktıları
+│               └── eventMapping.yaml           ← haptic UI kaydı (haptics block)
+└── build/                                      ← .lplug4 çıktıları
 ```
 
 ## Geliştirme
@@ -45,24 +47,24 @@ cd logi-plugin/src
 dotnet build -c Release
 ```
 
-csproj otomatik olarak Logi Plugin Service'in `Plugins/` dizinine bir `.link` dosyası yazar ve `loupedeck:plugin/LogiHapticsUnity/reload` URL'sini tetikler — Logi Options+ plugin'i anında hot-reload eder.
+csproj otomatik olarak plugin service'in `Plugins/` dizinine bir `.link` dosyası yazar ve reload tetikler — host plugin'i anında hot-reload eder.
 
 ## Paketleme (.lplug4)
 
 ```bash
 cd logi-plugin/src
 dotnet build -c Release
-logiplugintool pack ../bin/Release ../build/LogiHapticsUnity_0.0.1.lplug4
+logiplugintool pack ../bin/Release ../build/HapticBridgeForUnity_0.1.1.lplug4
 ```
 
-Çıktı: `logi-plugin/build/LogiHapticsUnity_<version>.lplug4` — çift tıklanabilir kurulum dosyası.
+Çıktı: `logi-plugin/build/HapticBridgeForUnity_<version>.lplug4` — çift tıklanabilir kurulum dosyası.
 
 ## Release
 
 `PluginApi.dll` Logi Options+ ile geldiği için CI'da alınamaz. Release'ler repo root'tan lokal olarak kesilir:
 
 ```bash
-./scripts/release-plugin.sh 0.1.0
+./scripts/release-plugin.sh 0.2.0
 ```
 
 Script şunları yapar:

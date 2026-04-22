@@ -1,6 +1,6 @@
 {
-    "name": "LogiHaptics.Runtime",
-    "rootNamespace": "LogiHaptics",
+    "name": "HapticBridge.Runtime",
+    "rootNamespace": "HapticBridge",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

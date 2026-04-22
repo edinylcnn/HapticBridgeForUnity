@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Release the Logi Options+ plugin as a GitHub release with a .lplug4 asset.
+# Release the Logi Options+ companion plugin as a GitHub release with a .lplug4 asset.
 #
 # Usage:   ./scripts/release-plugin.sh <version>
 # Example: ./scripts/release-plugin.sh 0.1.0
@@ -19,7 +19,7 @@ TAG="plugin-v${VERSION}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 MANIFEST="$REPO_ROOT/logi-plugin/src/package/metadata/LoupedeckPackage.yaml"
 OUT_DIR="$REPO_ROOT/logi-plugin/build"
-OUT_FILE="$OUT_DIR/LogiHapticsUnity_${VERSION}.lplug4"
+OUT_FILE="$OUT_DIR/HapticBridgeForUnity_${VERSION}.lplug4"
 
 echo ">> checking preconditions"
 command -v dotnet >/dev/null || { echo "dotnet not found"; exit 1; }
@@ -61,9 +61,9 @@ git -C "$REPO_ROOT" push origin "$TAG"
 
 echo ">> creating GitHub release"
 gh release create "$TAG" "$OUT_FILE" \
-  --title "Logi Plugin v$VERSION" \
+  --title "HapticBridge for Unity — Plugin v$VERSION" \
   --generate-notes \
-  --notes "Çift tıkla → Logi Options+ plugin'i kurar. Ayrıntı için repo root README."
+  --notes "Double-click the .lplug4 asset to install in Logi Options+. See repo root README for details."
 
 echo
 echo "done — https://github.com/edinylcnn/LogiHapticsForUnity/releases/tag/$TAG"

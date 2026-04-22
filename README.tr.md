@@ -1,21 +1,23 @@
 <p align="center">
-  <img src="docs/images/icon.png" width="128" alt="LogiHapticsForUnity" />
+  <img src="docs/images/icon.png" width="128" alt="HapticBridge for Unity" />
 </p>
 
-<h1 align="center">LogiHapticsForUnity</h1>
+<h1 align="center">HapticBridge for Unity</h1>
 
 <p align="center">
   <a href="README.md">English</a> · <a href="README.tr.md">Türkçe</a>
 </p>
+
+<p align="center"><sub>Resmi olmayan, topluluk tarafından geliştirilen bir plugin. Logitech veya Unity Technologies ile bağlantılı/onaylı değildir.</sub></p>
 
 > **Logitech MX Master 4** için Unity oyunlarına tek satırda haptic feedback — port yok, sertifika yok, domain ayarı yok.
 
 ![MX Master 4 haptic feedback](docs/images/hero.webp)
 
 ```csharp
-using LogiHaptics;
+using HapticBridge;
 
-LogiHapticsUnity.Trigger(HapticEvent.Click);
+HapticsBridge.Trigger(HapticEvent.Click);
 ```
 
 ---
@@ -23,7 +25,7 @@ LogiHapticsUnity.Trigger(HapticEvent.Click);
 ## Kurulum (4 adım)
 
 1. **[Logi Options+](https://www.logitech.com/software/logi-options-plus)** kurulu olsun (MX Master 4 ile zaten geliyor).
-2. [Releases](https://github.com/edinylcnn/LogiHapticsForUnity/releases) sayfasından **`LogiHapticsUnity_x.y.lplug4`**'ü indir → çift tıkla → Logi Options+ plugin'i kurar.
+2. [Releases](https://github.com/edinylcnn/LogiHapticsForUnity/releases) sayfasından **`HapticBridgeForUnity_x.y.lplug4`**'ü indir → çift tıkla → Logi Options+ companion plugin'i kurar.
 3. Unity'de **Package Manager**'ı aç → `+` → **Add package from git URL**:
 
    ```
@@ -33,16 +35,16 @@ LogiHapticsUnity.Trigger(HapticEvent.Click);
 4. İstediğin yerden çağır:
 
    ```csharp
-   LogiHapticsUnity.Trigger(HapticEvent.Click);
+   HapticsBridge.Trigger(HapticEvent.Click);
    ```
 
-Hiçbir şey hissetmiyorsan Logi Options+ → MX Master 4 → **Haptic Feedback** sekmesine gir ve **"LogiHaptics for Unity"** toggle'ının açık olduğunu doğrula (kurulumdan sonra default açık gelir).
+Hiçbir şey hissetmiyorsan Logi Options+ → MX Master 4 → **Haptic Feedback** sekmesine gir ve **"HapticBridge for Unity"** toggle'ının açık olduğunu doğrula (kurulumdan sonra default açık gelir).
 
 ---
 
 ## Event'ler
 
-Oyundan bağımsız dokuz genel amaçlı event, Logi waveform'larına eşlenmiş. İstersen genişlet.
+Oyundan bağımsız dokuz genel amaçlı event, 15 haptic waveform'una eşlenmiş. İstersen genişlet.
 
 | Event | Waveform | Tipik kullanım |
 |-------|----------|----------------|
@@ -56,10 +58,10 @@ Oyundan bağımsız dokuz genel amaçlı event, Logi waveform'larına eşlenmiş
 | `ImpactLight` | subtle_collision | Hafif temas, küçük etki |
 | `ImpactMedium` | sharp_collision | Standart darbe, çarpışma |
 
-Belirli bir waveform istiyorsan SDK'nın 15 waveform id'sinden birini doğrudan gönder:
+Belirli bir waveform istiyorsan 15 waveform id'sinden birini doğrudan gönder:
 
 ```csharp
-LogiHapticsUnity.TriggerRaw("firework");
+HapticsBridge.TriggerRaw("firework");
 ```
 
 Tam liste: `sharp_collision`, `sharp_state_change`, `knock`, `damp_collision`, `mad`, `ringing`, `subtle_collision`, `completed`, `jingle`, `damp_state_change`, `firework`, `happy_alert`, `wave`, `angry_alert`, `square`.
@@ -71,12 +73,12 @@ Tam liste: `sharp_collision`, `sharp_state_change`, `knock`, `damp_collision`, `
 ```
 Unity oyunu
     │
-    │  Windows:      Named Pipe \\.\pipe\LogiHapticsUnity
-    │  macOS/Linux:  Unix Domain Socket  $TMPDIR/CoreFxPipe_LogiHapticsUnity
+    │  Windows:      Named Pipe \\.\pipe\HapticBridgeForUnity
+    │  macOS/Linux:  Unix Domain Socket  $TMPDIR/CoreFxPipe_HapticBridgeForUnity
     ▼
-LogiHapticsUnity plugin  (Logi Options+ içinde çalışır — .lplug4)
+HapticBridge companion plugin  (Logi Options+ içinde çalışır — .lplug4)
     │
-    │  Loupedeck.Plugin / PluginEvents.RaiseEvent(waveform)
+    │  PluginEvents.RaiseEvent(waveform)
     ▼
 MX Master 4 haptic aktuatör
 ```
@@ -85,8 +87,8 @@ Repo iki bileşenli bir monorepo:
 
 | Klasör | İçerik | Dağıtım |
 |---|---|---|
-| [`logi-plugin/`](logi-plugin/) | Logi Options+ plugin (C#, Loupedeck.Plugin SDK) | `.lplug4` — GitHub Releases |
-| [`unity-package/`](unity-package/) | Unity Package — `com.logihapticsunity` | Unity Package Manager (git URL) |
+| [`logi-plugin/`](logi-plugin/) | Logi Options+ companion plugin (C#) | `.lplug4` — GitHub Releases |
+| [`unity-package/`](unity-package/) | Unity Package — `com.edinylcnn.hapticbridge` | Unity Package Manager (git URL) |
 
 ### Neden macOS/Linux'ta Unix Domain Socket?
 
@@ -105,41 +107,43 @@ Unity'nin Mono runtime'ı `NamedPipeClientStream`'i `.NET`'in plugin tarafında 
 
 Unity runtime asmdef'i `noEngineReferences: true` — saf .NET, Mono ve IL2CPP'nin ikisinde de derlenir.
 
-Plugin kurulu değilse `Connect` 200 ms timeout'a düşer, `LogiHapticsUnity.IsAvailable` `false` döner, çağrılar sessizce skip edilir — oyun hiçbir zaman çökmez.
+Companion plugin kurulu değilse `Connect` 200 ms timeout'a düşer, `HapticsBridge.IsAvailable` `false` döner, çağrılar sessizce skip edilir — oyun hiçbir zaman çökmez.
 
 ---
 
 ## Editor test paneli
 
-**Window → LogiHaptics → Test Panel** bir pencere açar: pipe bağlantı durumu, son hata, temp path ve her event için tetik butonu — sahneye bir şey koymaya gerek yok.
+**Window → HapticBridge → Test Panel** bir pencere açar: pipe bağlantı durumu, son hata, temp path ve her event için tetik butonu — sahneye bir şey koymaya gerek yok.
 
 <p align="center">
-  <img src="docs/images/test-panel.png" width="380" alt="LogiHaptics test paneli" />
+  <img src="docs/images/test-panel.png" width="380" alt="HapticBridge test paneli" />
 </p>
 
 ---
 
 ## Kendi oyununda dağıtırken
 
-Son kullanıcıya da plugin lazım. İyi bir örüntü:
+Son kullanıcıya da companion plugin lazım. İyi bir örüntü:
 
 ```csharp
-if (!LogiHapticsUnity.IsAvailable)
+if (!HapticsBridge.IsAvailable)
 {
     // .lplug4 release'ine götüren tek seferlik bir kurulum ipucu göster.
 }
 ```
 
-Sonra `LogiHapticsUnity.Trigger(...)` çağrılarını serbest bırak — plugin olsa da olmasa da güvenli.
+Sonra `HapticsBridge.Trigger(...)` çağrılarını serbest bırak — plugin olsa da olmasa da güvenli.
 
 ---
 
 ## Desteklenen cihaz
 
-**Sadece MX Master 4.** Logi'nin haptic API'si şu an başka bir cihaz expose etmiyor.
+**Sadece MX Master 4.** Host SDK'nın haptic API'si şu an başka bir cihaz expose etmiyor.
 
 ---
 
 ## Lisans
 
 MIT — detay için [LICENSE](LICENSE).
+
+HapticBridge for Unity, resmi olmayan, topluluk tarafından geliştirilen bir projedir. "Logi", "Logitech", "MX Master", "Logi Options+" Logitech'in; "Unity" Unity Technologies'in tescilli markalarıdır. Bu proje adı geçen firmalardan hiçbiriyle bağlantılı veya onları onaylı değildir.

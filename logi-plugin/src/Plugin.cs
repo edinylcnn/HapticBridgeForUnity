@@ -1,16 +1,16 @@
-namespace Loupedeck.LogiHapticsUnityPlugin
+namespace Loupedeck.HapticBridgeForUnityPlugin
 {
     using System;
     using System.Threading.Tasks;
 
-    public class LogiHapticsUnityPlugin : Plugin
+    public class HapticBridgeForUnityPlugin : Plugin
     {
         public override Boolean UsesApplicationApiOnly => true;
         public override Boolean HasNoApplication => true;
 
         PipeServer _pipe;
 
-        public LogiHapticsUnityPlugin()
+        public HapticBridgeForUnityPlugin()
         {
             PluginLog.Init(this.Log);
         }
@@ -20,7 +20,7 @@ namespace Loupedeck.LogiHapticsUnityPlugin
             RegisterHapticEvents();
             _pipe = new PipeServer(HandleEvent);
             _pipe.Start();
-            PluginLog.Info($"LogiHapticsUnity pipe server listening on '{PipeServer.PipeName}'");
+            PluginLog.Info($"HapticBridgeForUnity pipe server listening on '{PipeServer.PipeName}'");
             this.OnPluginStatusChanged(Loupedeck.PluginStatus.Normal, null);
         }
 
@@ -32,7 +32,7 @@ namespace Loupedeck.LogiHapticsUnityPlugin
 
         void RegisterHapticEvents()
         {
-            // Logi Options+ requires each haptic waveform to be registered as a plugin event.
+            // The host (Logi Options+) requires each haptic waveform to be registered as a plugin event.
             foreach (var waveform in HapticMapper.Waveforms)
             {
                 this.PluginEvents.AddEvent(waveform, waveform, null);

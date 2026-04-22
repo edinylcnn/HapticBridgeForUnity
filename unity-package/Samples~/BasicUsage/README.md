@@ -1,8 +1,8 @@
 # Basic Usage Sample
 
-`BasicHapticsDemo`'yu bir sahnedeki boş GameObject'e ekle, Play'e bas.
+Drop `BasicHapticsDemo` onto any empty GameObject in a scene and press Play.
 
-| Tuş | Event |
+| Key | Event |
 |-----|-------|
 | 1 | Click |
 | 2 | Success |
@@ -10,4 +10,4 @@
 | 4 | Achievement |
 | 5 | ImpactMedium |
 
-Plugin yüklü değilse console'da `Available: False` yazar; oyun çökmez, haptic tetiklenmez.
+If the companion plugin is not installed the console will print `Available: False` — the game keeps running and no haptic fires.

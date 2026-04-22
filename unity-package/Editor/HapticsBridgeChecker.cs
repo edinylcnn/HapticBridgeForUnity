@@ -1,23 +1,23 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace LogiHaptics.Editor
+namespace HapticBridge.Editor
 {
-    public class LogiHapticsUnityChecker : EditorWindow
+    public class HapticsBridgeChecker : EditorWindow
     {
         static readonly HapticEvent[] AllEvents = (HapticEvent[])System.Enum.GetValues(typeof(HapticEvent));
-        LogiHapticsService _probe;
+        HapticBridgeService _probe;
         string _status = "Unknown — press Connect";
 
-        [MenuItem("Window/LogiHaptics/Test Panel")]
-        public static void Open() => GetWindow<LogiHapticsUnityChecker>("LogiHaptics");
+        [MenuItem("Window/HapticBridge/Test Panel")]
+        public static void Open() => GetWindow<HapticsBridgeChecker>("HapticBridge");
 
         void OnDisable() { _probe?.Dispose(); _probe = null; }
 
         void OnGUI()
         {
             EditorGUILayout.LabelField("Plugin Pipe", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField($"Pipe name: {LogiHapticsService.PipeName}");
+            EditorGUILayout.LabelField($"Pipe name: {HapticBridgeService.PipeName}");
             EditorGUILayout.LabelField($"Temp path: {System.IO.Path.GetTempPath()}");
             EditorGUILayout.LabelField($"Status: {_status}");
             if (_probe != null && !string.IsNullOrEmpty(_probe.LastError))
@@ -43,7 +43,7 @@ namespace LogiHaptics.Editor
             if (_probe == null || !_probe.IsAvailable)
             {
                 EditorGUILayout.HelpBox(
-                    "Plugin pipe not connected. Install LogiHapticsUnity_x.y.lplug4 in Logi Options+ and press Connect.",
+                    "Plugin pipe not connected. Install HapticBridgeForUnity_x.y.lplug4 in Logi Options+ and press Connect.",
                     MessageType.Info);
             }
         }
@@ -51,10 +51,10 @@ namespace LogiHaptics.Editor
         void Probe()
         {
             _probe?.Dispose();
-            _probe = new LogiHapticsService();
+            _probe = new HapticBridgeService();
             var ok = _probe.TryConnect();
             _status = ok ? "Connected" : $"Could not connect — {_probe.LastError}";
-            UnityEngine.Debug.Log($"[LogiHaptics] Connect ok={ok} tmp={System.IO.Path.GetTempPath()} lastError={_probe.LastError}");
+            UnityEngine.Debug.Log($"[HapticBridge] Connect ok={ok} tmp={System.IO.Path.GetTempPath()} lastError={_probe.LastError}");
             Repaint();
         }
     }

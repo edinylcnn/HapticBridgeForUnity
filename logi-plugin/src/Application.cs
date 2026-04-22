@@ -1,8 +1,8 @@
-namespace Loupedeck.LogiHapticsUnityPlugin
+namespace Loupedeck.HapticBridgeForUnityPlugin
 {
     using System;
 
-    public class LogiHapticsUnityApplication : ClientApplication
+    public class HapticBridgeForUnityApplication : ClientApplication
     {
         protected override String GetProcessName() => "";
         protected override String GetBundleName() => "";

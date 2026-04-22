@@ -1,8 +1,10 @@
-# unity-package — `com.logihapticsunity`
+# unity-package — `com.edinylcnn.hapticbridge`
 
 [English](README.md) · [Türkçe](README.tr.md)
 
-Unity tarafındaki UPM paketi. Windows'ta Named Pipe, macOS/Linux'ta Unix Domain Socket üzerinden [`logi-plugin`](../logi-plugin)'e event gönderir.
+Unity tarafındaki UPM paketi. Windows'ta Named Pipe, macOS/Linux'ta Unix Domain Socket üzerinden companion plugin'e ([`logi-plugin`](../logi-plugin)) event gönderir.
+
+> Resmi olmayan, topluluk paketi. Logitech veya Unity Technologies ile bağlantılı değildir.
 
 ## Kurulum
 
@@ -15,24 +17,24 @@ https://github.com/edinylcnn/LogiHapticsForUnity.git?path=/unity-package
 ## Kullanım
 
 ```csharp
-using LogiHaptics;
+using HapticBridge;
 
 // Tek satır
-LogiHapticsUnity.Trigger(HapticEvent.Click);
+HapticsBridge.Trigger(HapticEvent.Click);
 
 // Ham waveform (15 SDK waveform'undan biri)
-LogiHapticsUnity.TriggerRaw("firework");
+HapticsBridge.TriggerRaw("firework");
 
 // Manuel DI
-IHapticService haptic = new LogiHapticsService();
+IHapticService haptic = new HapticBridgeService();
 haptic.Trigger(HapticEvent.Success);
 ```
 
-Plugin kurulu mu diye kontrol etmek için `LogiHapticsUnity.IsAvailable` — `false` ise kullanıcıya kurulum rehberini gösterebilirsin. Çağrılar her durumda güvenli: fallback no-op, hiçbir şey çökmez.
+Companion plugin kurulu mu diye kontrol etmek için `HapticsBridge.IsAvailable` — `false` ise kullanıcıya kurulum rehberini gösterebilirsin. Çağrılar her durumda güvenli: fallback no-op, hiçbir şey çökmez.
 
 ## Editor test paneli
 
-**Window → LogiHaptics → Test Panel**
+**Window → HapticBridge → Test Panel**
 
 - Pipe bağlantı durumu + son hata
 - Temp path
@@ -47,13 +49,13 @@ unity-package/
 ├── Runtime/
 │   ├── IHapticService.cs
 │   ├── HapticEvent.cs                ← 9 generic event
-│   ├── LogiHapticsService.cs         ← pipe (Windows) / Unix socket (mac/linux) client
+│   ├── HapticBridgeService.cs        ← pipe (Windows) / Unix socket (mac/linux) client
 │   ├── NullHapticsService.cs         ← fallback
-│   ├── LogiHapticsUnity.cs           ← static façade
-│   └── LogiHaptics.Runtime.asmdef
+│   ├── HapticsBridge.cs              ← static façade
+│   └── HapticBridge.Runtime.asmdef
 ├── Editor/
-│   ├── LogiHapticsUnityChecker.cs    ← test paneli
-│   └── LogiHaptics.Editor.asmdef
+│   ├── HapticsBridgeChecker.cs       ← test paneli
+│   └── HapticBridge.Editor.asmdef
 ├── Samples~/
 │   └── BasicUsage/                   ← 1-5 tuşlarıyla event demo
 └── package.json
