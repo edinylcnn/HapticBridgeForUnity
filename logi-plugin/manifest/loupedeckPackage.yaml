@@ -1,0 +1,18 @@
+# Logi Options+ plugin manifest.
+# TODO: Align schema with the Logi Actions SDK template once the SDK is cloned.
+# Reference: https://logitech.github.io/actions-sdk-docs/
+
+id: com.edinylcnn.logihapticsunity
+name: LogiHapticsUnity
+version: 0.0.1
+author: Edin Yalçın
+description: >
+  Bridge plugin that receives haptic event names from Unity over a named pipe
+  (LogiHapticsUnity) and triggers MX Master 4 haptic waveforms via the Logi
+  Actions SDK.
+minAppVersion: 1.0.0
+devices:
+  - mx-master-4
+entry:
+  assembly: LogiHapticsUnity.Plugin.dll
+  class: LogiHapticsUnity.Plugin.LogiHapticsUnityPlugin

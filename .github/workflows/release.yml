@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'plugin-v*'
+      - 'unity-v*'
+
+jobs:
+  plugin:
+    if: startsWith(github.ref, 'refs/tags/plugin-v')
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build plugin
+        working-directory: logi-plugin/src
+        run: dotnet build -c Release
+
+      # TODO: Invoke Logi Actions SDK packager to produce the .lplug4 archive.
+      #       Placeholder: zip the build output + manifest so the pipeline is wired.
+      - name: Package (.lplug4 placeholder)
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}" -replace '^plugin-v',''
+          $out = "logi-plugin/build/LogiHapticsUnity_$version.lplug4"
+          New-Item -ItemType Directory -Force -Path logi-plugin/build | Out-Null
+          Compress-Archive -Path logi-plugin/src/bin/Release/**,logi-plugin/manifest/* -DestinationPath $out
+          echo "ARTIFACT=$out" >> $env:GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.ARTIFACT }}
+          name: Logi Plugin ${{ github.ref_name }}
+          generate_release_notes: true
+
+  unity:
+    if: startsWith(github.ref, 'refs/tags/unity-v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync package.json version
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#unity-v}"
+          tmp=$(mktemp)
+          jq --arg v "$version" '.version = $v' unity-package/package.json > "$tmp"
+          mv "$tmp" unity-package/package.json
+          cat unity-package/package.json
+
+      - name: Create GitHub Release (UPM consumers install via git tag)
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Unity Package ${{ github.ref_name }}
+          generate_release_notes: true
+          body: |
+            Unity Package Manager — Add package from git URL:
+
+            ```
+            https://github.com/edinylcnn/LogiHapticsForUnity.git?path=/unity-package#${{ github.ref_name }}
+            ```

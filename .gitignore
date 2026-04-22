@@ -21,8 +21,11 @@ unity-package/UserSettings/
 # Global gitignore compensations — Unity's Samples~ convention must be tracked
 !**/Samples~/
 !**/Samples~/**
+
 *.csproj
 *.sln
+# Plugin project file is source, not Unity-generated — must come after *.csproj
+!logi-plugin/src/*.csproj
 *.suo
 *.user
 *.userprefs

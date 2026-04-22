@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>LogiHapticsUnity.Plugin</AssemblyName>
+    <RootNamespace>LogiHapticsUnity.Plugin</RootNamespace>
+  </PropertyGroup>
+
+  <!--
+    TODO: Add Logi Actions SDK package/assembly reference once the SDK template is in place.
+    Docs: https://logitech.github.io/actions-sdk-docs/
+  -->
+
+</Project>
