@@ -1,8 +1,16 @@
-# LogiHapticsForUnity
+<p align="center">
+  <img src="docs/images/icon.png" width="128" alt="LogiHapticsForUnity" />
+</p>
 
-[English](README.md) · [Türkçe](README.tr.md)
+<h1 align="center">LogiHapticsForUnity</h1>
+
+<p align="center">
+  <a href="README.md">English</a> · <a href="README.tr.md">Türkçe</a>
+</p>
 
 > One-line haptic feedback for Unity games on the **Logitech MX Master 4** — no ports, no certificates, no domain setup.
+
+![MX Master 4 haptic feedback](docs/images/hero.webp)
 
 ```csharp
 using LogiHaptics;
@@ -104,6 +112,10 @@ If the plugin is not installed, `Connect` times out in 200 ms, `LogiHapticsUnity
 ## Editor test panel
 
 **Window → LogiHaptics → Test Panel** opens a window that shows the pipe connection status, last error, temp path, and a trigger button per event — no scene setup needed.
+
+<p align="center">
+  <img src="docs/images/test-panel.png" width="380" alt="LogiHaptics test panel" />
+</p>
 
 ---
 
