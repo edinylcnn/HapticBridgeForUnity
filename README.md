@@ -11,20 +11,19 @@
 
 1. **[Logi Options+](https://www.logitech.com/software/logi-options-plus)** kurulu olsun (MX Master 4 ile zaten geliyor)
 2. **GitHub Releases**'ten `LogiHapticsUnity_x.y.lplug4` indir → çift tıkla → Logi Options+ plugin'i kurar
-3. **Logi Options+**'ı aç → MX Master 4 → **Haptic Feedback** sekmesi → **"LogiHaptics for Unity"** toggle'ını AÇ
-4. **Unity Package Manager** → `+` → Add package from git URL:
+3. **Unity Package Manager** → `+` → Add package from git URL:
 
    ```
    https://github.com/edinylcnn/LogiHapticsForUnity.git?path=/unity-package
    ```
 
-5. Kodda:
+4. Kodda:
 
    ```csharp
    LogiHapticsUnity.Trigger(HapticEvent.Click);
    ```
 
-> **Önemli:** 3. adım atlandığında event pipe'a gelir ama cihazda haptic tetiklenmez — Logi Options+ plugin event'lerini UI'dan manuel olarak haptic çıkışına bağlıyor.
+> **Haptic hissetmiyorsan** — Logi Options+ → MX Master 4 → **Haptic Feedback** sekmesinde **"LogiHaptics for Unity"** toggle'ının açık olduğunu doğrula (kurulumdan sonra default açık gelir ama kullanıcı daha önce kapatmış olabilir).
 
 Firewall onayı yok. Domain yok. Sertifika yok. Port ayarı yok.
 
