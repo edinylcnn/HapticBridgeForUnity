@@ -10,7 +10,7 @@ description: >
   them to the host SDK's haptic waveforms.
 
 pluginFileName: HapticBridgeForUnityPlugin.dll
-version: 0.2.1
+version: 1.0.0
 author: Edin Yalçın
 copyright: Copyright © 2026 Edin Yalçın. MIT License.
 
