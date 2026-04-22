@@ -23,6 +23,9 @@ supportedDevices:
 
 pluginCapabilities:
   - HasHapticMapping
+  - HasHapticsMapping
+
+icon256x256: Icon256x256.png
 
 minimumLoupedeckVersion: 6.2
 

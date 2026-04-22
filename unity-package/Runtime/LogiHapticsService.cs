@@ -1,7 +1,8 @@
 using System;
 using System.IO;
 using System.IO.Pipes;
-using System.Threading;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace LogiHaptics
@@ -9,20 +10,24 @@ namespace LogiHaptics
     public sealed class LogiHapticsService : IHapticService
     {
         public const string PipeName = "LogiHapticsUnity";
-        const int ConnectTimeoutMs = 50;
+        const int ConnectTimeoutMs = 200;
 
         readonly object _lock = new object();
-        NamedPipeClientStream _pipe;
+        readonly bool _isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        Stream _stream;
         StreamWriter _writer;
+        string _lastError;
         bool _connectAttempted;
         bool _disposed;
 
         public bool IsAvailable
         {
-            get
-            {
-                lock (_lock) { return _pipe != null && _pipe.IsConnected; }
-            }
+            get { lock (_lock) { return _stream != null; } }
+        }
+
+        public string LastError
+        {
+            get { lock (_lock) { return _lastError; } }
         }
 
         public bool TryConnect()
@@ -30,7 +35,7 @@ namespace LogiHaptics
             lock (_lock)
             {
                 if (_disposed) return false;
-                DisposePipeLocked();
+                DisposeStreamLocked();
                 _connectAttempted = false;
                 return EnsureConnectedLocked();
             }
@@ -56,49 +61,70 @@ namespace LogiHaptics
                     _writer.Flush();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ResetConnection();
+                lock (_lock) { _lastError = ex.Message; DisposeStreamLocked(); _connectAttempted = false; }
             }
         }
 
         bool EnsureConnectedLocked()
         {
-            if (_pipe != null && _pipe.IsConnected) return true;
-            if (_connectAttempted && _pipe == null) return false;
-
-            DisposePipeLocked();
+            if (_stream != null) return true;
+            if (_connectAttempted) return false;
             _connectAttempted = true;
 
             try
             {
-                var pipe = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
-                pipe.Connect(ConnectTimeoutMs);
-                _pipe = pipe;
-                _writer = new StreamWriter(pipe) { AutoFlush = false };
+                _stream = _isWindows ? ConnectWindows() : ConnectUnix();
+                _writer = new StreamWriter(_stream) { AutoFlush = false };
+                _lastError = null;
                 return true;
             }
-            catch (TimeoutException)
+            catch (Exception ex)
             {
-                return false;
-            }
-            catch (IOException)
-            {
+                _lastError = ex.Message;
+                DisposeStreamLocked();
                 return false;
             }
         }
 
-        void ResetConnection()
+        Stream ConnectWindows()
         {
-            lock (_lock) { DisposePipeLocked(); _connectAttempted = false; }
+            var pipe = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
+            pipe.Connect(ConnectTimeoutMs);
+            return pipe;
         }
 
-        void DisposePipeLocked()
+        Stream ConnectUnix()
+        {
+            // .NET named pipes on Unix map to a Unix Domain Socket at $TMPDIR/CoreFxPipe_<name>.
+            // Unity's Mono runtime's NamedPipeClientStream does not always target this path,
+            // so we connect directly via UnixDomainSocketEndPoint — matches the plugin's server.
+            var tmp = Environment.GetEnvironmentVariable("TMPDIR");
+            if (string.IsNullOrEmpty(tmp)) tmp = "/tmp/";
+            if (!tmp.EndsWith("/")) tmp += "/";
+            var socketPath = tmp + "CoreFxPipe_" + PipeName;
+
+            var socket = new Socket(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
+            var endpoint = new UnixDomainSocketEndPoint(socketPath);
+
+            var ar = socket.BeginConnect(endpoint, null, null);
+            if (!ar.AsyncWaitHandle.WaitOne(ConnectTimeoutMs))
+            {
+                try { socket.Dispose(); } catch { }
+                throw new TimeoutException($"unix socket connect timeout at {socketPath}");
+            }
+            socket.EndConnect(ar);
+
+            return new NetworkStream(socket, ownsSocket: true);
+        }
+
+        void DisposeStreamLocked()
         {
             try { _writer?.Dispose(); } catch { }
-            try { _pipe?.Dispose(); } catch { }
+            try { _stream?.Dispose(); } catch { }
             _writer = null;
-            _pipe = null;
+            _stream = null;
         }
 
         public void Dispose()
@@ -107,7 +133,7 @@ namespace LogiHaptics
             {
                 if (_disposed) return;
                 _disposed = true;
-                DisposePipeLocked();
+                DisposeStreamLocked();
             }
         }
 

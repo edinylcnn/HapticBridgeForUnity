@@ -18,7 +18,10 @@ namespace LogiHaptics.Editor
         {
             EditorGUILayout.LabelField("Plugin Pipe", EditorStyles.boldLabel);
             EditorGUILayout.LabelField($"Pipe name: {LogiHapticsService.PipeName}");
+            EditorGUILayout.LabelField($"Temp path: {System.IO.Path.GetTempPath()}");
             EditorGUILayout.LabelField($"Status: {_status}");
+            if (_probe != null && !string.IsNullOrEmpty(_probe.LastError))
+                EditorGUILayout.HelpBox($"Last error: {_probe.LastError}", MessageType.Warning);
 
             EditorGUILayout.Space();
 
@@ -49,9 +52,9 @@ namespace LogiHaptics.Editor
         {
             _probe?.Dispose();
             _probe = new LogiHapticsService();
-            _status = _probe.TryConnect()
-                ? "Connected"
-                : "Could not connect — plugin not running?";
+            var ok = _probe.TryConnect();
+            _status = ok ? "Connected" : $"Could not connect — {_probe.LastError}";
+            UnityEngine.Debug.Log($"[LogiHaptics] Connect ok={ok} tmp={System.IO.Path.GetTempPath()} lastError={_probe.LastError}");
             Repaint();
         }
     }
