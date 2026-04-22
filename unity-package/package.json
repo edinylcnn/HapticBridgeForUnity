@@ -1,8 +1,8 @@
 {
   "name": "com.logihapticsunity",
   "version": "0.1.1",
-  "displayName": "LogiHapticsUnity",
-  "description": "Tek satırla MX Master 4 haptic feedback — Logi Options+ plugin üzerinden Named Pipe.",
+  "displayName": "LogiHaptics for Unity",
+  "description": "One-line MX Master 4 haptic feedback for Unity games via a Logi Options+ plugin.",
   "unity": "2021.3",
   "keywords": [
     "haptics",
@@ -19,7 +19,7 @@
   "samples": [
     {
       "displayName": "Basic Usage",
-      "description": "Genel amaçlı event'ler için örnek entegrasyon (Click, Success, Impact vb.).",
+      "description": "Example integration for the generic events (Click, Success, Impact, ...).",
       "path": "Samples~/BasicUsage"
     }
   ]
