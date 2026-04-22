@@ -1,6 +1,6 @@
 {
   "name": "com.edinylcnn.hapticbridge",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "displayName": "HapticBridge for Unity",
   "description": "One-line MX Master 4 haptic feedback for Unity games. Unofficial community package — works with a companion Logi Options+ plugin.",
   "unity": "2021.3",
