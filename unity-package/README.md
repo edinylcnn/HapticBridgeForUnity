@@ -8,7 +8,13 @@ Unity-side UPM package. Sends events to the companion plugin ([`logi-plugin`](..
 
 ## Install
 
-Unity Package Manager → `+` → **Add package from git URL**:
+**OpenUPM (recommended):**
+
+```bash
+openupm add com.edinylcnn.hapticbridge
+```
+
+**Git URL:** Unity Package Manager → `+` → Add package from git URL →
 
 ```
 https://github.com/edinylcnn/HapticBridgeForUnity.git?path=/unity-package

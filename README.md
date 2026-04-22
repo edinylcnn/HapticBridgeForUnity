@@ -10,6 +10,12 @@
 
 <p align="center"><sub>Unofficial community plugin. Not affiliated with or endorsed by Logitech or Unity Technologies.</sub></p>
 
+<p align="center">
+  <a href="https://openupm.com/packages/com.edinylcnn.hapticbridge/"><img src="https://img.shields.io/npm/v/com.edinylcnn.hapticbridge?label=openupm&registry_uri=https://package.openupm.com&color=brightgreen" alt="openupm" /></a>
+  <a href="https://github.com/edinylcnn/HapticBridgeForUnity/releases"><img src="https://img.shields.io/github/v/release/edinylcnn/HapticBridgeForUnity?filter=plugin-*&label=plugin" alt="plugin release" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/edinylcnn/HapticBridgeForUnity" alt="license" /></a>
+</p>
+
 > One-line haptic feedback for Unity games on the **Logitech MX Master 4** — no ports, no certificates, no domain setup.
 
 ![MX Master 4 haptic feedback](docs/images/hero.webp)
@@ -26,11 +32,15 @@ HapticsBridge.Trigger(HapticEvent.Click);
 
 1. Make sure **[Logi Options+](https://www.logitech.com/software/logi-options-plus)** is installed (it ships with the MX Master 4).
 2. Download **`HapticBridgeForUnity_x.y.lplug4`** from [Releases](https://github.com/edinylcnn/HapticBridgeForUnity/releases) → double-click → Logi Options+ installs the companion plugin.
-3. In Unity, open **Package Manager** → `+` → **Add package from git URL**:
+3. Install the Unity package — pick one:
 
+   **OpenUPM (recommended):**
+   ```bash
+   openupm add com.edinylcnn.hapticbridge
    ```
-   https://github.com/edinylcnn/HapticBridgeForUnity.git?path=/unity-package
-   ```
+
+   **Git URL (no CLI):** Package Manager → `+` → Add package from git URL →
+   `https://github.com/edinylcnn/HapticBridgeForUnity.git?path=/unity-package`
 
 4. Call it from anywhere:
 

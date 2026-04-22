@@ -10,6 +10,12 @@
 
 <p align="center"><sub>Resmi olmayan, topluluk tarafından geliştirilen bir plugin. Logitech veya Unity Technologies ile bağlantılı/onaylı değildir.</sub></p>
 
+<p align="center">
+  <a href="https://openupm.com/packages/com.edinylcnn.hapticbridge/"><img src="https://img.shields.io/npm/v/com.edinylcnn.hapticbridge?label=openupm&registry_uri=https://package.openupm.com&color=brightgreen" alt="openupm" /></a>
+  <a href="https://github.com/edinylcnn/HapticBridgeForUnity/releases"><img src="https://img.shields.io/github/v/release/edinylcnn/HapticBridgeForUnity?filter=plugin-*&label=plugin" alt="plugin release" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/edinylcnn/HapticBridgeForUnity" alt="license" /></a>
+</p>
+
 > **Logitech MX Master 4** için Unity oyunlarına tek satırda haptic feedback — port yok, sertifika yok, domain ayarı yok.
 
 ![MX Master 4 haptic feedback](docs/images/hero.webp)
@@ -26,11 +32,15 @@ HapticsBridge.Trigger(HapticEvent.Click);
 
 1. **[Logi Options+](https://www.logitech.com/software/logi-options-plus)** kurulu olsun (MX Master 4 ile zaten geliyor).
 2. [Releases](https://github.com/edinylcnn/HapticBridgeForUnity/releases) sayfasından **`HapticBridgeForUnity_x.y.lplug4`**'ü indir → çift tıkla → Logi Options+ companion plugin'i kurar.
-3. Unity'de **Package Manager**'ı aç → `+` → **Add package from git URL**:
+3. Unity paketini kur — iki yoldan biri:
 
+   **OpenUPM (önerilen):**
+   ```bash
+   openupm add com.edinylcnn.hapticbridge
    ```
-   https://github.com/edinylcnn/HapticBridgeForUnity.git?path=/unity-package
-   ```
+
+   **Git URL (CLI'sız):** Package Manager → `+` → Add package from git URL →
+   `https://github.com/edinylcnn/HapticBridgeForUnity.git?path=/unity-package`
 
 4. İstediğin yerden çağır:
 

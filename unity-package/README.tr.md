@@ -8,7 +8,13 @@ Unity tarafındaki UPM paketi. Windows'ta Named Pipe, macOS/Linux'ta Unix Domain
 
 ## Kurulum
 
-Unity Package Manager → `+` → **Add package from git URL**:
+**OpenUPM (önerilen):**
+
+```bash
+openupm add com.edinylcnn.hapticbridge
+```
+
+**Git URL:** Unity Package Manager → `+` → Add package from git URL →
 
 ```
 https://github.com/edinylcnn/HapticBridgeForUnity.git?path=/unity-package
